@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liceo Cristiano de Guayaquil - Renovación Responsive</title>
+    <style>
+        /* --- VARIABLES DE MARCA --- */
+        :root {
+            --azul-principal: #00468c;
+            --azul-oscuro: #002d5e;
+            --amarillo-marca: #ffcc00;
+            --gris-fondo: #f8f9fa;
+            --texto-oscuro: #333333;
+        }
+
+        /* --- ESTILOS GLOBALES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--gris-fondo); color: var(--texto-oscuro); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+
+        /* --- TOP BAR ACCIONES --- */
+        .top-actions { display: flex; gap: 10px; background-color: var(--azul-oscuro); padding: 8px 5%; justify-content: flex-end; }
+        .top-actions a { color: white; font-size: 12px; font-weight: 500; padding: 2px 10px; border-radius: 4px; }
+        .btn-pago { background-color: var(--amarillo-marca); color: var(--azul-oscuro) !important; font-weight: bold !important; }
+
+        /* --- NAVBAR RESPONSIVE --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #ffffff; padding: 15px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-placeholder { width: 50px; height: 50px; background-color: var(--azul-principal); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        
+        /* Botón Hamburguesa (Oculto en PC) */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+        .menu-toggle span { width: 25px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; transition: 0.3s; }
+
+        .nav-links { display: flex; list-style: none; gap: 15px; align-items: center; }
+        .nav-links > li { position: relative; padding: 10px 0; }
+        .nav-links a { font-weight: 600; color: var(--azul-principal); font-size: 14px; display: flex; align-items: center; gap: 4px; }
+        .nav-links a:hover { color: var(--amarillo-marca); }
+
+        /* Dropdowns (Desplegables en PC) */
+        .dropdown-menu { position: absolute; top: 100%; left: 0; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 6px; display: none; min-width: 200px; list-style: none; padding: 10px 0; z-index: 1010; }
+        .dropdown-menu li a { padding: 10px 20px; font-weight: 500; color: #555; display: block; }
+        .dropdown-menu li a:hover { background-color: #f1f5f9; color: var(--azul-principal); }
+        .nav-links li:hover .dropdown-menu { display: block; }
+
+        /* --- CARRUSEL AUTOMÁTICO --- */
+        .slider-container { position: relative; width: 100%; height: 500px; overflow: hidden; }
+        .slides { display: flex; width: 300%; height: 100%; transition: transform 0.8s ease-in-out; }
+        .slide { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
+        .slide::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0.45); }
+        .slide-content { position: relative; color: white; text-align: center; z-index: 2; padding: 20px; max-width: 800px; }
+        .slide-content h2 { font-size: 3.2rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .slide-content p { font-size: 1.3rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
+
+        /* --- OFERTA EDUCATIVA --- */
+        .oferta-educativa { max-width: 1200px; margin: -50px auto 50px; padding: 0 20px; position: relative; z-index: 10; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .nivel-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid var(--azul-principal); transition: transform 0.3s; }
+        .nivel-card:hover { transform: translateY(-5px); border-top-color: var(--amarillo-marca); }
+        .nivel-card h3 { color: var(--azul-principal); margin-bottom: 15px; font-size: 1.4rem; }
+        .nivel-card p { color: #666; font-size: 14px; line-height: 1.6; }
+
+        /* --- SECCIONES DE CONTENIDO --- */
+        .main-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .section-title { text-align: center; color: var(--azul-principal); margin-bottom: 40px; font-size: 2rem; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background-color: var(--amarillo-marca); margin: 10px auto 0; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 30px; }
+        
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .card-img { height: 220px; background-color: #ddd; background-size: cover; background-position: center; }
+        .card-body { padding: 25px; }
+        .card-tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 12px; text-transform: uppercase; }
+        .tag-noticia { background-color: #e1f5fe; color: #0288d1; }
+        .tag-logro { background-color: #e8f5e9; color: #388e3c; }
+        
+        .card-body h3 { margin-bottom: 12px; color: var(--azul-principal); font-size: 1.25rem; line-height: 1.4; }
+        .card-body p { color: #666; font-size: 14px; line-height: 1.6; }
+
+        /* --- FOOTER COMPLETO --- */
+        footer { background-color: var(--azul-oscuro); color: white; padding: 60px 5% 20px; margin-top: 80px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .footer-col h4 { color: var(--amarillo-marca); margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-col p, .footer-col li { font-size: 14px; color: #d1e2f3; line-height: 1.8; list-style: none; }
+        .map-placeholder { width: 100%; height: 130px; background-color: #1a426e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #a3c7eb; font-size: 12px; margin-top: 10px; }
+        .footer-bottom { text-align: center; padding-top: 25px; font-size: 13px; color: #a3c7eb; }
+
+        /* --- POP-UP DE VIDEO (MODAL) --- */
+        .video-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.4s ease; }
+        .video-modal-overlay.open { display: flex; opacity: 1; }
+        .video-modal-content { position: relative; width: 90%; max-width: 800px; background-color: black; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: scale(0.7); transition: transform 0.4s ease; }
+        .video-modal-overlay.open .video-modal-content { transform: scale(1); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 35px; color: white; background: none; border: none; cursor: pointer; z-index: 2001; transition: transform 0.3s; }
+        .close-modal-btn:hover { transform: rotate(90deg); color: var(--amarillo-marca); }
+
+
+        /* ========================================== */
+        /* --- MEDIA QUERIES (RESPONSIVE DESIGN) ---  */
+        /* ========================================== */
+        
+        @media (max-width: 992px) {
+            /* Menú colapsable estilo móvil */
+            .menu-toggle { display: flex; }
+            .nav-links { 
+                position: absolute; top: 100%; left: 0; width: 100%; 
+                background-color: white; flex-direction: column; gap: 0;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px 0;
+                display: none; /* Oculto por defecto en móvil */
+            }
+            .nav-links.active { display: flex; } /* Se muestra al pulsar la hamburguesa */
+            .nav-links > li { width: 100%; text-align: left; padding: 0; }
+            .nav-links a { padding: 15px 5%; border-bottom: 1px solid #f1f5f9; width: 100%; justify-content: space-between; }
+            
+            /* Ajustes del submenú desplegable en móvil */
+            .dropdown-menu { position: static; box-shadow: none; background-color: #f8f9fa; width: 100%; display: none; border-radius: 0; padding: 0; }
+            .dropdown-menu li a { padding: 12px 10%; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+            .nav-links li:hover .dropdown-menu { display: none; } /* Desactivar hover en móviles */
+            .nav-links li.show-dropdown .dropdown-menu { display: block; } /* Mostrar con clic */
+
+            /* Ajuste del tamaño del slider */
+            .slider-container { height: 350px; }
+            .slide-content h2 { font-size: 2.2rem; }
+            .slide-content p { font-size: 1rem; }
+        }
+
+        @media (max-width: 576px) {
+            .slider-container { height: 280px; }
+            .slide-content h2 { font-size: 1.7rem; margin-bottom: 8px; }
+            .slide-content p { font-size: 0.9rem; }
+            .oferta-educativa { margin-top: -20px; } /* Ajuste del solapamiento */
+            .section-title { font-size: 1.6rem; }
+            footer { padding-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-actions">
+        <a href="#liceo-virtual">Liceo Virtual</a>
+        <a href="#pagos" class="btn-pago">Botón de Pago</a>
+    </div>
+
+    <!-- POP-UP DE VIDEO AUTOMÁTICO -->
+    <div class="video-modal-overlay" id="videoModal">
+        <div class="video-modal-content">
+            <button class="close-modal-btn" id="closeModal">&times;</button>
+            <div class="video-container">
+                <iframe id="youtubePlayer" 
+                        src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&autoplay=1" 
+                        title="Video Institucional LCG" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR RESPONSIVE -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo-placeholder">LCG</div>
+            <span style="font-weight: bold; color: var(--azul-principal); font-size: 1.2rem;">Liceo Cristiano</span>
+        </div>
+        
+        <!-- Botón Hamburguesa -->
+        <button class="menu-toggle" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#quienes-somos">Quiénes Somos</a></li>
+            
+            <!-- Desplegable Admisiones -->
+            <li class="has-dropdown">
+                <a href="#" class="dropdown-toggle">Admisiones ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#inscripciones">Inscripciones</a></li>
+                    <li><a href="#uniforme">Uniforme</a></li>
+                    <li><a href="#perfil">Perfil del estudiante</a></li>
+                    <li><a href="#admisiones2026">Admisiones 2026</a></li>
+                </ul>
+            </li>
+            
+            <!-- Desplegable Estudiantes -->
+            <li class="has-dropdown">
+                <a href="#" class="dropdown-toggle">Estudiantes ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#consejo">Consejo Estudiantil</a></li>
+                    <li><a href="#meritos">Méritos Estudiantiles</a></li>
+                    <li><a href="#servicio">Servicio Estudiantil</a></li>
+                </ul>
+            </li>
+            
+            <!-- Desplegable Institucional -->
+            <li class="has-dropdown">
+                <a href="#" class="dropdown-toggle">Institucional ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#rendicion">Rendición de Cuentas</a></li>
+                    <li><a href="#convenios">Convenios y Certificaciones</a></li>
+                </ul>
+            </li>
+            
+            <li><a href="#pastoral">Pastoral</a></li>
+            <li><a href="#rincon-literario">Rincón Literario</a></li>
+            <li><a href="#contacto">Contactos</a></li>
+        </ul>
+    </nav>
+
+    <!-- CARRUSEL DE PORTADAS -->
+    <div class="slider-container" id="inicio">
+        <div class="slides" id="slidesTrack">
+            <div class="slide" style="background-image: url('https://picsum.photos/1920/500?random=10');">
+                <div class="slide-content">
+                    <h2>Un Concepto Superior en Educación</h2>
+                    <p>Formando Líderes de Integridad para un nuevo Ecuador y el mundo.</p>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://picsum.photos/1920/500?random=11');">
+                <div class="slide-content">
+                    <h2>Admisiones 2026 Abiertas</h2>
+                    <p>Asegura el futuro académico y espiritual de tus hijos hoy mismo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OFERTA EDUCATIVA -->
+    <section class="oferta-educativa">
+        <div class="nivel-card">
+            <h3>Educación Inicial</h3>
+            <p>Potencia su aprendizaje y promueve su bienestar, sin desconocer la responsabilidad formativa de la familia.</p>
+        </div>
+        <div class="nivel-card">
+            <h3>Educación Básica</h3>
+            <p>Aseguramos la correcta alfabetización; enseña a leer, escribir, cálculo básico y competencias clave.</p>
+        </div>
+        <div class="nivel-card">
+            <h3>Bachillerato</h3>
+            <p>Un programa de estudio integral que prepara con excelencia al estudiante para los estudios superiores universitarios.</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: ÚLTIMAS ACTIVIDADES -->
+    <section class="main-section" id="actividades">
+        <h2 class="section-title">Últimas Actividades</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=20');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-noticia">Evento</span>
+                    <h3>Conversatorio con el escritor Leonardo Valencia</h3>
+                    <p>El Liceo Cristiano de Guayaquil celebró con éxito su Exposición Anual de Proyectos Estudiantiles, destacando el compromiso académico.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=22');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-noticia">Institucional</span>
+                    <h3>Casa Abierta: Ciencia e Innovación</h3>
+                    <p>Llevamos a cabo de forma exitosa la Casa Abierta, un espacio académico donde los estudiantes compartieron innovación científica.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=24');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-noticia">Pastoral</span>
+                    <h3>Campamento Espiritual Bachillerato</h3>
+                    <p>Un tiempo bendecido de comunión, reflexión y talleres interactivos con nuestros estudiantes enfocados en su proyecto de vida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;"><hr style="border: 0; height: 1px; background: rgba(0,0,0,0.1);"></div>
+
+    <!-- SECCIÓN: NUESTROS LOGROS -->
+    <section class="main-section" id="logros">
+        <h2 class="section-title">Orgullo y Logros LCG</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=21');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-logro">Cultura</span>
+                    <h3>Primer Lugar en el III Festival de Cultura</h3>
+                    <p>Celebramos con gran orgullo haber alcanzado el primer lugar en este festival intercolegial de prestigio, demostrando el talento.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=25');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-logro">Académico</span>
+                    <h3>Excelencia en Olimpiadas de Matemáticas</h3>
+                    <p>Nuestra delegación estudiantil obtuvo mención de honor y medalla de plata en la competencia provincial, posicionando al liceo.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/400/250?random=26');"></div>
+                <div class="card-body">
+                    <span class="card-tag tag-logro">Deportes</span>
+                    <h3>Campeones del Intercolegial de Fútbol</h3>
+                    <p>La selección sub-16 se coronó campeona tras un torneo impecable basado en el trabajo en equipo, la disciplina y el esfuerzo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER COMPLETO -->
+    <footer id="contacto">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Liceo Cristiano</h4>
+                <p>Formando líderes íntegros y de excelencia con principios bíblicos firmes.</p>
+                <br>
+                <p><strong>Secretaría Telefónica:</strong><br>📞 +593 95 862 0216</p>
+            </div>
+            <div class="footer-col">
+                <h4>Campus 1</h4>
+                <p>📍 Av. Juan Tanca Marengo Km. 3.5 y Av. Benjamín Carrión</p>
+                <div class="map-placeholder">[ Mapa Campus 1 ]</div>
+            </div>
+            <div class="footer-col">
+                <h4>Campus 2 (Atención)</h4>
+                <p>📍 Calle Pública y Av. Juan Tanca Marengo Km. 4</p>
+                <p style="margin-top: 5px; font-size:12px; color:#a3c7eb;"><strong>Horario Presencial:</strong><br>Lunes a Viernes de 08h00 - 16h30</p>
+                <div class="map-placeholder">[ Mapa Campus 2 ]</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Liceo Cristiano de Guayaquil. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- LOGICA SCRIPT -->
+    <script>
+        // 1. Menú Hamburguesa Móvil
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Manejo de Dropdowns haciendo clic en móvil
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 992) {
+                    e.preventDefault(); // Evita navegar si el link es '#'
+                    const parentLi = toggle.parentElement;
+                    parentLi.classList.toggle('show-dropdown');
+                }
+            });
+        });
+
+        // 2. Modal de Video Pop-up
+        const modal = document.getElementById('videoModal');
+        const closeBtn = document.getElementById('closeModal');
+        const player = document.getElementById('youtubePlayer');
+
+        function stopVideo() { player.src = player.src; }
+        window.addEventListener('load', () => { modal.classList.add('open'); });
+        closeBtn.addEventListener('click', () => { modal.classList.remove('open'); stopVideo(); });
+        modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('open'); stopVideo(); } });
+
+        // 3. Slider Automático
+        const track = document.getElementById('slidesTrack');
+        let currentIndex = 0;
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % 2;
+            track.style.transform = `translateX(-${currentIndex * 50}%)`;
+        }, 6000);
+    </script>
+</body>
+</html>
