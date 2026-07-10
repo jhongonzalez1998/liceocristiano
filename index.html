@@ -351,6 +351,25 @@
         font-size: 12px;
         margin-top: 10px;
       }
+
+      .map-responsive {
+        position: relative;
+        padding-bottom: 56.25%; /* Mantiene una proporción limpia de aspecto 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-top: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .map-responsive iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto obliga al mapa a adaptarse al ancho de la columna del footer */
+        height: 100%; /* Esto obliga al mapa a adaptarse a la proporción definida */
+      }
+
       .footer-bottom {
         text-align: center;
         padding-top: 25px;
@@ -529,7 +548,9 @@
         <div class="video-container">
           <iframe
             id="youtubePlayer"
-            src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&autoplay=1"
+            //https://youtu.be/BIi89VdDY_Y    Admisiones
+            //https://www.youtube.com/watch?v=vN6weukJrD0     Dios el centro de la familia
+            src="https://www.youtube.com/embed/vN6weukJrD0?enablejsapi=1&autoplay=1"
             title="Video Institucional LCG"
             allow="
               accelerometer;
@@ -550,7 +571,7 @@
     <!-- NAVBAR RESPONSIVE -->
     <nav class="navbar">
       <div class="logo-container">
-        <div class="logo-placeholder">LCG</div>
+        <img src="logo lcg/Recurso 14.png" width="35px" alt="" />
         <span
           style="
             font-weight: bold;
@@ -798,7 +819,15 @@
         <div class="footer-col">
           <h4>Campus 1</h4>
           <p>📍 Av. Juan Tanca Marengo Km. 3.5 y Av. Benjamín Carrión</p>
-          <div class="map-placeholder">[ Mapa Campus 1 ]</div>
+          <div class="map-responsive">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d681.2495869568002!2d-79.91477632519354!3d-2.143783459970028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d6d7c72f3a2c9%3A0x806b1c261d309620!2sUnidad%20Educativa%20Liceo%20Cristiano%20campus%202!5e0!3m2!1ses-419!2sec!4v1783701731082!5m2!1ses-419!2sec"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
         </div>
         <div class="footer-col">
           <h4>Campus 2 (Atención)</h4>
@@ -807,7 +836,15 @@
             <strong>Horario Presencial:</strong><br />Lunes a Viernes de 08h00 -
             16h30
           </p>
-          <div class="map-placeholder">[ Mapa Campus 2 ]</div>
+          <div class="map-responsive">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1046.0945793610802!2d-79.91023784282679!3d-2.1458316471135155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d6d799ad4ebf5%3A0x2184b3d267f287de!2sLiceo%20Cristiano%20De%20Guayaquil!5e0!3m2!1ses-419!2sec!4v1783701590068!5m2!1ses-419!2sec"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
